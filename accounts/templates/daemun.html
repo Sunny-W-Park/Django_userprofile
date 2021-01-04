@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %} 
+
+{% block page_content %}
+
+<body>
+        <!-- About-->
+        <section class="page-section bg-primary" id="about">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="text-white mt-0"> 환영합니다.</h2>
+                        <hr class="divider light my-4" />
+                        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'signup' %}">회원가입 바로가기</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Explaination -->
+        <section class="page-section bg-secondary" id="explanation">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="text-white mt-0">지금 가입하세요.</h2>
+                        <hr class="divider light my-4" />
+                        <p class="text-white mb-4"> Texter는 무료입니다.ㅤ </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+</body>
+{% endblock %}
+
+
