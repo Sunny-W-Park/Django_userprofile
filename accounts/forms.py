@@ -4,12 +4,15 @@ from django.core.exceptions import ValidationError
 #User registration
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib import auth
 
 #Import model
 from .models import Signup
 
+#<TBD>
 #Check duplicate nicknames
 #Email auth function should be added
+
 class SignupForm(UserCreationForm):
     username = forms.CharField(
             label = '계정(이메일)',
@@ -58,7 +61,25 @@ class SignupForm(UserCreationForm):
 
 
     def clean_username(self):
-        cleaned_data = self.cleaned_data['username']
-        if "@" and ".com" not in cleaned_data:
+        username = self.cleaned_data['username']
+        if "@" and ".com" not in username:
             raise ValidationError("유효한 이메일을 입력해주세요.")
-        return cleaned_data
+        return username
+
+#   def duplicate_username(self):
+#       username = self.cleaned_data['username'].lower()
+#       r = User.objects.filter(username = username)
+#       if r.count():
+#           raise  ValidationError("이미 가입된 유저입니다.")
+#       return username
+#
+#   def clean_password(self):
+#       password = self.cleaned_data['password1']
+#       if len(password) < 8:
+#           raise ValidationError("최소 8자리 이상 입력해주세요.")
+#       return password
+
+
+
+
+

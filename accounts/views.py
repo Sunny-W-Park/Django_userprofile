@@ -39,6 +39,7 @@ def signupform(request):
             signup.save()
             messages.info(request, '환영합니다.')
             return redirect('signup')
+            #TBC to redirect('daemun'), after adding message line into daemun.html
     context = {"form": form}
     return render(request, "signup.html", context)
 
@@ -65,7 +66,7 @@ def login(request):
             auth.login(request, user)
             return redirect('daemun')
         else:
-            return render(request, 'login.html', {'error': 'username or password is incorrect'})
+            return render(request, 'login.html', {'error': '아이디 혹은 비밀번호가 잘못 입력되었습니다.'})
     else:
         return render(request, 'login.html')
 
