@@ -62,7 +62,7 @@ class SignupForm(UserCreationForm):
 
     def clean_username(self):
         username = self.cleaned_data['username']
-        if "@" and ".com" not in username:
+        if "@" and ".com"  not in username:
             raise ValidationError("유효한 이메일을 입력해주세요.")
         return username
 

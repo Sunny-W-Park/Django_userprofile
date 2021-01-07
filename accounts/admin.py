@@ -8,6 +8,7 @@ class SignupAdmin(admin.ModelAdmin):
             'name',
             'nickname',
             'email',
+            'created_on',
             )
     pass
 
