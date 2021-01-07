@@ -31,12 +31,14 @@ def signupform(request):
                     )
             #Save in User Config
             auth.login(request, user)
+            #Login
             signup = Signup(
                     name = form.data.get('name'),
                     email = form.data.get('username'),
                     nickname = form.data.get('nickname'),
                     )
             signup.save()
+            #Save in Model
             messages.info(request, '환영합니다.')
             return redirect('signup')
             #TBC to redirect('daemun'), after adding message line into daemun.html

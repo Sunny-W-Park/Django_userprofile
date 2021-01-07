@@ -21,16 +21,16 @@ class SignupForm(UserCreationForm):
                 attrs = {
                     "size": "40",
                     }
-                )
+                ),
             )
     password1 = forms.CharField(
             label = '비밀번호',
             widget = forms.PasswordInput(
                 attrs = {
-                    "placeholder": "한글, 영문, 숫자 조합 8자리 이상",
+                    "placeholder": "영문, 숫자 조합 8자리 이상",
                     "size": "40",
                     }
-                )
+                ),
             )
     password2 = forms.CharField(
             label = '비밀번호 확인',
@@ -38,7 +38,7 @@ class SignupForm(UserCreationForm):
                 attrs = {
                     "size": "40",
                     }
-                )
+                ),
             )
     name = forms.CharField(
             label = '이름',
@@ -47,7 +47,7 @@ class SignupForm(UserCreationForm):
                 attrs = {
                     "size": "40",
                     }
-                )
+                ),
             )
     nickname = forms.CharField(
             label = '닉네임',
@@ -56,7 +56,7 @@ class SignupForm(UserCreationForm):
                 attrs = {
                     "size": "40",
                     }
-                )
+                ),
             )
 
 
@@ -66,20 +66,16 @@ class SignupForm(UserCreationForm):
             raise ValidationError("유효한 이메일을 입력해주세요.")
         return username
 
-#   def duplicate_username(self):
-#       username = self.cleaned_data['username'].lower()
-#       r = User.objects.filter(username = username)
-#       if r.count():
-#           raise  ValidationError("이미 가입된 유저입니다.")
-#       return username
-#
-#   def clean_password(self):
-#       password = self.cleaned_data['password1']
-#       if len(password) < 8:
-#           raise ValidationError("최소 8자리 이상 입력해주세요.")
-#       return password
+    def duplicate_username(self):
+       clean_username = self.cleaned_data['username']
+       if Signup.objects.filter(username = clean_username).exists():
+           raise forms.ValidationError("이미 가입된 유저입니다.")
+       return username
 
-
-
+    def clean_nickname(self):
+        clean_nickname = self.cleaned_data['nickname']
+        if Signup.objects.filter(nickname = clean_nickname).exists():
+            raise forms.ValidationError("이미 사용중인 닉네임입니다. 다른 닉네임을 입력해주세요.")
+        return clean_nickname
 
 
