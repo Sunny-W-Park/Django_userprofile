@@ -79,22 +79,3 @@ class SignupForm(UserCreationForm):
         return clean_nickname
 
 
-class FindAccountForm(forms.Form):
-    name = forms.CharField(
-            label = '이름',
-            max_length = 120,
-            widget = forms.TextInput(
-                attrs = {
-                    "size": "40",
-                    }
-                ),
-            )
-    username = forms.CharField(
-            label = '이메일',
-            max_length = 120,
-            widget = forms.TextInput(
-                attrs = {
-                    "size": "40",
-                    }
-                ),
-            )

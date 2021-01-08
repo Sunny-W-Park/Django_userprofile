@@ -11,14 +11,14 @@ from django.contrib import messages
 from .models import Signup
 
 #Signup form
-from .forms import SignupForm, FindAccountForm
-from accounts.forms import SignupForm, FindAccountForm
+from .forms import SignupForm
+from accounts.forms import SignupForm
 
 #Password Reset
 from django.urls import reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import (AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm)
 
 #Email authentification
 from django.contrib.sites.shortcuts import get_current_site
@@ -43,6 +43,7 @@ def signupform(request):
             user = User.objects.create_user(
                     username = request.POST["username"],
                     password = request.POST["password1"],
+                    email = request.POST["username"],
                     )
             user.is_active = False
             user.save()
@@ -70,7 +71,7 @@ def signupform(request):
             email = EmailMessage(mail_subject, message, to=[user_email])
             email.send()
             messages.info(request, '입력하신 이메일로 인증 링크가 전송되었습니다. 인증 후 로그인 가능합니다.')
-            return redirect('signup')
+            return redirect('login')
             #TBC to redirect('daemun'), after adding message line into daemun.html
     context = {"form": form}
     return render(request, "signup.html", context)
@@ -115,8 +116,7 @@ def login(request):
         else:
             messages.info(request, '아이디 혹은 비밀번호가 잘못 입력되었습니다.')
             return render(request, 'login.html', {'error': '아이디/비밀번호 오류'})
-    else:
-        return render(request, 'login.html')
+    return render(request, 'login.html')
 
 def logout(request):
     auth.logout(request)
@@ -127,7 +127,6 @@ def logout(request):
 class UserPasswordResetView(PasswordResetView):
     template_name = 'password_reset.html'
     success_url = reverse_lazy('password_reset_done')
-    form_class = PasswordResetForm
 
     def form_valid(self, form):
         if Signup.objects.filter(email = self.request.POST.get("email")).exists():
@@ -144,51 +143,9 @@ class UserPasswordResetView(PasswordResetView):
             form.save(**opts)
             return super().form_valid(form)
         else:
-            return render(self.request, 'password_reset_done_fail.html')
+            #error pop-up when no corresponding account found:
+            messages.info(self.request, '미가입 계정입니다. 이메일 주소를 확인해주세요.')
+            return render(self.request, 'password_reset.html', {'error': '없는 계정'})
 
 class UserPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'password_reset_done.html'
-
-
-#def findaccount(request):
-#    form = FindAccountForm()
-#
-#    if request.method == "POST":
-#        form = FindAccountForm(request.POST)
-#        if form.is_valid():
-#            user = User.objects.create_user(
-#                    username = request.POST["username"],
-#                    password = request.POST["password1"],
-#                    )
-#            user.is_active = False
-#            user.save()
-#            #Save in User Config
-#            #auth.login(request, user)
-#            signup = Signup(
-#                    name = form.data.get('name'),
-#                    email = form.data.get('username'),
-#                    nickname = form.data.get('nickname'),
-#                    )
-#            signup.save()
-#            #Save in Model
-#            current_site = get_current_site(request)
-#            #localhost:8000
-#            message = render_to_string(
-#                    'user_activate_email.html',
-#                    {'user': user,
-#                    'domain': current_site.domain,
-#                    'uid': urlsafe_base64_encode(force_bytes(user.pk)).encode().decode(),
-#                    'token': account_activation_token.make_token(user)
-#                    })
-#            #create token (tokens.py)
-#            mail_subject = '[Texter] 회원가입 인증 메일입니다.'
-#            user_email = user.username
-#            email = EmailMessage(mail_subject, message, to=[user_email])
-#            email.send()
-#            messages.info(request, '입력하신 이메일로 인증 링크가 전송되었습니다. 인증 후 로그인 가능합니다.')
-#            return redirect('signup')
-#            #TBC to redirect('daemun'), after adding message line into daemun.html
-#    context = {"form": form}
-#    return render(request, "findaccount.html", context)
-
-

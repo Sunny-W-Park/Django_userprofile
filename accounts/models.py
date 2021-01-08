@@ -11,5 +11,7 @@ class Signup(models.Model):
     name = models.CharField(max_length = 120, null = True, blank = False)
     nickname = models.CharField(max_length = 120, null = True, blank = False)
     email = models.CharField(max_length = 120, null = True, blank = False)
-
+ 
+    def __str__(self):
+        return self.email
 
