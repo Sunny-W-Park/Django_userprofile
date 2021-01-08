@@ -99,11 +99,16 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         user = auth.authenticate(request, username = username, password = password)
-        if user is not None and user.is_active == True:
-            auth.login(request, user)
-            return redirect('daemun')
+        if user is not None:
+            if user.is_active:
+                auth.login(request, user)
+                return redirect('daemun')
+            else:
+                messages.info(request, '미인증 계정입니다. 이메일 인증을 완료해주세요.')
+                return render(request, 'login.html', {'error': '미인증 계정'})
         else:
-            return render(request, 'login.html', {'error': '아이디 혹은 비밀번호가 잘못 입력되었습니다.'})
+            messages.info(request, '아이디 혹은 비밀번호가 잘못 입력되었습니다.')
+            return render(request, 'login.html', {'error': '아이디/비밀번호 오류'})
     else:
         return render(request, 'login.html')
 

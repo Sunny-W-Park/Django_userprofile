@@ -25,6 +25,7 @@
           Register
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{% url 'signup' %} ">Signup</a>
             <a class="dropdown-item" href="{% url 'login' %}">Login</a>
         </div>
       </li>

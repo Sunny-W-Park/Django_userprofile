@@ -7,17 +7,48 @@
 
     <form method = "POST" action = "{% url 'login' %}">
         {% csrf_token %}
-        Username:
+        계정(이메일):
         <br>
         <input name = "username" type = "text">
         <br>
-        Password:
+        비밀번호:
         <br>
         <input name = "password" type = "password">
-        <br><br>
-        <input type = "submit" class = "btn btn-primary" value = "login">
+        </br>
+        &nbsp;
+        </br>
+        <input type = "submit" class = "btn btn-primary" value = "로그인">
     </form>
+        </br>
+        아직 계정이 없으신가요? 
+        </br>
+        <a href="{% url 'signup' %}">회원가입 바로가기</a>
+        </br>
+        &nbsp;
+        </br>
+        가입된 계정이 있는지 확인하세요.
+        </br>
+        <a href="{% url 'signup' %}">아이디/비밀번호 찾기</a>
+        </br>
+        &nbsp;
+        </br>
+        로그인에 문제가 있는 경우, Texter팀에 문의해주세요.
+        </br>
+        <a href="{% url 'signup' %}">실시간 문의하기</a>
+
+    <!-- alerts -->
+        {% if messages %}
+            {% for message in messages %}
+            {% if message.tags %}
+            <script> alert("{{ message }}")</script> 
+            {% endif %}  
+            {% endfor %}
+        </ul>
+        {% endif %}
 </div>
-  
+
+
+ 
+
 {% endblock %}
 
