@@ -62,7 +62,7 @@ class SignupForm(UserCreationForm):
 
     def clean_username(self):
         username = self.cleaned_data['username']
-        if "@" and ".com"  not in username:
+        if "@" not in username:
             raise ValidationError("유효한 이메일을 입력해주세요.")
         return username
 
@@ -79,3 +79,22 @@ class SignupForm(UserCreationForm):
         return clean_nickname
 
 
+class FindAccountForm(forms.Form):
+    name = forms.CharField(
+            label = '이름',
+            max_length = 120,
+            widget = forms.TextInput(
+                attrs = {
+                    "size": "40",
+                    }
+                ),
+            )
+    username = forms.CharField(
+            label = '이메일',
+            max_length = 120,
+            widget = forms.TextInput(
+                attrs = {
+                    "size": "40",
+                    }
+                ),
+            )

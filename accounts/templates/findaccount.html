@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block page_content %}
+
+<div class = "container">
+    <h1> find your account </h1>
+   
+    <!-- form method -->
+    <form method = "POST" action = "{% url 'findaccount' %}">
+        {% csrf_token %}
+        {{ form | crispy }}
+        &nbsp;
+        <br>
+        <button type = "submit" class = "btn btn-primary"> 계정 찾기 </button>
+        <br>
+        &nbsp;
+    </form>
+
+    <!-- welcome message (pop-up) -->
+        {% if messages %}
+            {% for message in messages %}
+            {% if message.tags %}
+            <script> alert("{{ message }}")</script> 
+            {% endif %}  
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+</div>
+
+{% endblock %}
+
